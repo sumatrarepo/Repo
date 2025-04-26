@@ -3,16 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fitur Maintenance</title>
+  <title>Discord Auto Post</title>
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
   />
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background-color: #fff;
+      background: linear-gradient(135deg, #e0e7ff, #f0f4ff);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       justify-content: center;
@@ -22,40 +26,60 @@
 
     .container {
       display: grid;
-      grid-template-columns: repeat(2, 220px);
-      grid-gap: 30px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
     }
 
     .box {
-      background-color: #f9f9f9;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
       border-radius: 20px;
       padding: 40px 20px;
       text-align: center;
       font-weight: 600;
       font-size: 16px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
+      color: #333;
+      font-family: 'Roboto', sans-serif;
     }
 
     .box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
     }
 
     .icon {
-      font-size: 30px;
+      font-size: 32px;
       margin-bottom: 10px;
     }
 
     .discord { color: #5865F2; }
     .star { color: #FFD700; }
-    .user { color: #aaa; }
+    .user { color: #888; }
     .youtube { color: #FF0000; }
 
     .label {
       font-size: 18px;
+      font-weight: 500;
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #f44336;
+      color: white;
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: bold;
     }
 
     /* Modal Styles */
@@ -64,7 +88,7 @@
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
       display: none;
       justify-content: center;
       align-items: center;
@@ -77,11 +101,11 @@
 
     .modal-content {
       background: white;
-      padding: 25px;
-      border-radius: 12px;
+      padding: 30px;
+      border-radius: 14px;
       text-align: center;
-      max-width: 300px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      max-width: 320px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       animation: fadeIn 0.3s ease;
     }
 
@@ -92,32 +116,33 @@
 
     .modal-content p {
       margin-bottom: 20px;
+      font-size: 16px;
     }
 
     .modal-content button {
       padding: 10px 20px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-    }
-
-    .btn-cancel {
-      background-color: #ccc;
-      color: black;
-    }
-
-    /* Maintenance badge (optional) */
-    .badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #f44336;
+      font-size: 14px;
+      background-color: #5865F2;
       color: white;
-      font-size: 10px;
-      padding: 4px 6px;
-      border-radius: 6px;
-      font-weight: bold;
+    }
+
+    .modal-content button:hover {
+      background-color: #4752c4;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .box {
+        font-size: 14px;
+        padding: 30px 15px;
+      }
     }
   </style>
 </head>
@@ -150,7 +175,7 @@
   <div id="modal" class="modal">
     <div class="modal-content">
       <p id="modal-message">❌ Maaf, fitur sedang dalam perbaikan.</p>
-      <button onclick="closeModal()" class="btn-cancel">Tutup</button>
+      <button onclick="closeModal()">Tutup</button>
     </div>
   </div>
 
@@ -163,6 +188,7 @@
         msg.innerHTML = "❌ Gagal, Website Sedang Maintenance";
       } else {
         msg.innerHTML = "✅ Anda akan diarahkan ke halaman.";
+        setTimeout(() => window.open(url, '_blank'), 1000);
       }
 
       modal.classList.add('show');
