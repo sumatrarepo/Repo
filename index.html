@@ -82,6 +82,40 @@
       font-weight: bold;
     }
 
+    .badge.new {
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+      color: white;
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: bold;
+      text-transform: uppercase;
+      box-shadow: 0 0 8px rgba(0, 114, 255, 0.7);
+      animation: pulse 1.5s infinite;
+    }
+
+    .badge.maintenance {
+      background: linear-gradient(45deg, #ff9a00, #ff2e00);
+      color: white;
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      animation: pulseMaintenance 4s infinite; /* Durasi animasi diperpanjang */
+    }
+
+    @keyframes pulseMaintenance {
+      0% { transform: scale(1); box-shadow: 0 0 8px rgba(255, 46, 0, 0.7); }
+      50% { transform: scale(1.1); box-shadow: 0 0 14px rgba(255, 46, 0, 0.9); }
+      100% { transform: scale(1); box-shadow: 0 0 8px rgba(255, 46, 0, 0.7); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 8px rgba(0, 114, 255, 0.7); }
+      50% { transform: scale(1.1); box-shadow: 0 0 14px rgba(0, 114, 255, 0.9); }
+      100% { transform: scale(1); box-shadow: 0 0 8px rgba(0, 114, 255, 0.7); }
+    }
+
     /* Modal Styles */
     .modal {
       position: fixed;
@@ -107,6 +141,24 @@
       max-width: 320px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       animation: fadeIn 0.3s ease;
+      position: relative;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #888;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    .close-button:hover {
+      color: #000;
     }
 
     @keyframes fadeIn {
@@ -119,7 +171,13 @@
       font-size: 16px;
     }
 
-    .modal-content button {
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .modal-buttons button {
       padding: 10px 20px;
       border: none;
       border-radius: 8px;
@@ -128,9 +186,10 @@
       font-size: 14px;
       background-color: #5865F2;
       color: white;
+      transition: background-color 0.3s ease;
     }
 
-    .modal-content button:hover {
+    .modal-buttons button:hover {
       background-color: #4752c4;
     }
 
@@ -150,22 +209,22 @@
 
   <div class="container">
     <div class="box" onclick="handleClick('', true)">
-      <div class="badge">Maintenance</div>
+      <div class="badge maintenance">Maintenance</div>
       <div class="icon discord"><i class="fab fa-discord"></i></div>
       <div class="label">Auto Post</div>
     </div>
     <div class="box" onclick="handleClick('', true)">
-      <div class="badge">Maintenance</div>
+      <div class="badge maintenance">Maintenance</div>
       <div class="icon star"><i class="fas fa-star"></i></div>
       <div class="label">Premium User Login</div>
     </div>
-    <div class="box" onclick="handleClick('', true)">
-      <div class="badge">Maintenance</div>
+    <div class="box" onclick="handleClick('', true, 'Trial User Login')">
+      <div class="badge new">NEW</div>
       <div class="icon user"><i class="fas fa-user"></i></div>
       <div class="label">Trial User Login</div>
     </div>
     <div class="box" onclick="handleClick('', true)">
-      <div class="badge">Maintenance</div>
+      <div class="badge maintenance">Maintenance</div>
       <div class="icon youtube"><i class="fab fa-youtube"></i></div>
       <div class="label">Tutorial</div>
     </div>
@@ -174,30 +233,42 @@
   <!-- Modal -->
   <div id="modal" class="modal">
     <div class="modal-content">
+      <button class="close-button" onclick="closeModal()">&times;</button>
       <p id="modal-message">❌ Maaf, fitur sedang dalam perbaikan.</p>
-      <button onclick="closeModal()">Tutup</button>
+      <div class="modal-buttons" id="modal-buttons">
+        <button onclick="closeModal()">Tutup</button>
+      </div>
     </div>
   </div>
 
   <script>
-    function handleClick(url, isMaintenance) {
+    let redirectUrl = "";
+    function handleClick(url, isMaintenance, boxName = '') {
       const modal = document.getElementById('modal');
       const msg = document.getElementById('modal-message');
+      const buttonsDiv = document.getElementById('modal-buttons');
+
+      buttonsDiv.innerHTML = ""; // bersihkan tombol
 
       if (isMaintenance) {
-        msg.innerHTML = "❌ Gagal, Website Sedang Maintenance";
+        msg.innerHTML = "❌ Maaf, fitur sedang dalam perbaikan.";
+        buttonsDiv.innerHTML = `<button onclick="closeModal()">Tutup</button>`;
       } else {
-        msg.innerHTML = "✅ Anda akan diarahkan ke halaman.";
-        setTimeout(() => window.open(url, '_blank'), 1000);
+        if (boxName !== '') {
+          msg.innerHTML = `✅ Mengarahkan ke ${boxName}...`;
+          setTimeout(() => {
+            window.location.href = url;
+          }, 1500);
+        }
       }
 
-      modal.classList.add('show');
+      modal.classList.add("show");
     }
 
     function closeModal() {
-      document.getElementById('modal').classList.remove('show');
+      const modal = document.getElementById('modal');
+      modal.classList.remove("show");
     }
   </script>
-
 </body>
 </html>
