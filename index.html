@@ -1,10 +1,177 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url=https://b94b-47-254-18-95.ngrok-free.app/login" />
-    <title>Redirecting...</title>
-  </head>
-  <body>
-    <p>Redirecting... Jika tidak otomatis, klik <a href="https://b94b-47-254-18-95.ngrok-free.app/login">di sini</a>.</p>
-  </body>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fitur Maintenance</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 220px);
+      grid-gap: 30px;
+    }
+
+    .box {
+      background-color: #f9f9f9;
+      border-radius: 20px;
+      padding: 40px 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .discord { color: #5865F2; }
+    .star { color: #FFD700; }
+    .user { color: #aaa; }
+    .youtube { color: #FF0000; }
+
+    .label {
+      font-size: 18px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 300px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+    }
+
+    .modal-content button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-cancel {
+      background-color: #ccc;
+      color: black;
+    }
+
+    /* Maintenance badge (optional) */
+    .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #f44336;
+      color: white;
+      font-size: 10px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="box" onclick="handleClick('', true)">
+      <div class="badge">Maintenance</div>
+      <div class="icon discord"><i class="fab fa-discord"></i></div>
+      <div class="label">Auto Post</div>
+    </div>
+    <div class="box" onclick="handleClick('', true)">
+      <div class="badge">Maintenance</div>
+      <div class="icon star"><i class="fas fa-star"></i></div>
+      <div class="label">Premium User Login</div>
+    </div>
+    <div class="box" onclick="handleClick('', true)">
+      <div class="badge">Maintenance</div>
+      <div class="icon user"><i class="fas fa-user"></i></div>
+      <div class="label">Trial User Login</div>
+    </div>
+    <div class="box" onclick="handleClick('', true)">
+      <div class="badge">Maintenance</div>
+      <div class="icon youtube"><i class="fab fa-youtube"></i></div>
+      <div class="label">Tutorial</div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <p id="modal-message">❌ Maaf, fitur sedang dalam perbaikan.</p>
+      <button onclick="closeModal()" class="btn-cancel">Tutup</button>
+    </div>
+  </div>
+
+  <script>
+    function handleClick(url, isMaintenance) {
+      const modal = document.getElementById('modal');
+      const msg = document.getElementById('modal-message');
+
+      if (isMaintenance) {
+        msg.innerHTML = "❌ Gagal, Website Sedang Maintenance";
+      } else {
+        msg.innerHTML = "✅ Anda akan diarahkan ke halaman.";
+      }
+
+      modal.classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('show');
+    }
+  </script>
+
+</body>
 </html>
