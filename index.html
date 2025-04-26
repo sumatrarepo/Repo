@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Discord Auto Post</title>
+  <title>Discord Auto Post - Shiny Modern Edition</title>
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
   />
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -22,6 +20,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     .container {
@@ -34,20 +33,19 @@
     }
 
     .box {
+      position: relative;
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(10px);
       border-radius: 20px;
-      padding: 40px 20px;
+      padding: 50px 20px;
       text-align: center;
       font-weight: 600;
       font-size: 16px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      color: #333;
-      font-family: 'Roboto', sans-serif;
+      overflow: hidden;
     }
 
     .box:hover {
@@ -56,18 +54,29 @@
     }
 
     .icon {
-      font-size: 32px;
-      margin-bottom: 10px;
+      font-size: 48px;
+      margin-bottom: 12px;
+      color: white;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
+                   0 0 20px rgba(255, 255, 255, 0.4),
+                   0 0 30px rgba(255, 255, 255, 0.2);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff; }
+      100% { text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #0ff; }
     }
 
     .discord { color: #5865F2; }
     .star { color: #FFD700; }
-    .user { color: #888; }
+    .user { color: #00c6ff; }
     .youtube { color: #FF0000; }
 
     .label {
       font-size: 18px;
       font-weight: 500;
+      margin-top: 10px;
     }
 
     .badge {
@@ -84,45 +93,68 @@
 
     .badge.new {
       background: linear-gradient(45deg, #00c6ff, #0072ff);
-      color: white;
-      font-size: 10px;
       padding: 4px 10px;
       border-radius: 999px;
-      font-weight: bold;
-      text-transform: uppercase;
-      box-shadow: 0 0 8px rgba(0, 114, 255, 0.7);
       animation: pulse 1.5s infinite;
     }
 
     .badge.maintenance {
       background: linear-gradient(45deg, #ff9a00, #ff2e00);
-      color: white;
-      font-size: 10px;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-weight: bold;
-      animation: pulseMaintenance 4s infinite; /* Durasi animasi diperpanjang */
-    }
-
-    @keyframes pulseMaintenance {
-      0% { transform: scale(1); box-shadow: 0 0 8px rgba(255, 46, 0, 0.7); }
-      50% { transform: scale(1.1); box-shadow: 0 0 14px rgba(255, 46, 0, 0.9); }
-      100% { transform: scale(1); box-shadow: 0 0 8px rgba(255, 46, 0, 0.7); }
+      animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 0 8px rgba(0, 114, 255, 0.7); }
-      50% { transform: scale(1.1); box-shadow: 0 0 14px rgba(0, 114, 255, 0.9); }
-      100% { transform: scale(1); box-shadow: 0 0 8px rgba(0, 114, 255, 0.7); }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
-    /* Modal Styles */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkleAnim 2s infinite ease-in-out;
+    }
+
+    @keyframes sparkleAnim {
+      0% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0); }
+    }
+
+    .shine {
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.6) 50%,
+        rgba(255,255,255,0) 100%
+      );
+      transform: skewX(-25deg);
+      animation: shineMove 2.5s infinite;
+    }
+
+    @keyframes shineMove {
+      0% { left: -75%; }
+      50% { left: 125%; }
+      100% { left: 125%; }
+    }
+
+    /* Modern Modal */
     .modal {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
       background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
       display: none;
       justify-content: center;
       align-items: center;
@@ -133,142 +165,187 @@
       display: flex;
     }
 
-    .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 14px;
+    .modal-content.modern {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px 20px;
       text-align: center;
-      max-width: 320px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      animation: fadeIn 0.3s ease;
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      transform: scale(0.9);
+      opacity: 0;
+      animation: popUp 0.4s forwards;
       position: relative;
     }
 
     .close-button {
       position: absolute;
-      top: 10px;
-      right: 14px;
+      top: 12px;
+      right: 16px;
       background: none;
       border: none;
-      font-size: 22px;
+      font-size: 26px;
+      color: #ccc;
       cursor: pointer;
-      color: #888;
+      transition: color 0.3s;
+    }
+
+    .close-button:hover { color: #fff; }
+
+    .modal-body h2 {
+      font-size: 22px;
       font-weight: bold;
-      transition: color 0.2s ease;
+      color: #fff;
+      margin-bottom: 10px;
     }
 
-    .close-button:hover {
-      color: #000;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .modal-content p {
-      margin-bottom: 20px;
+    .modal-body p {
       font-size: 16px;
+      color: #ddd;
+      margin-bottom: 20px;
     }
 
     .modal-buttons {
       display: flex;
-      gap: 10px;
       justify-content: center;
+      gap: 12px;
     }
 
     .modal-buttons button {
-      padding: 10px 20px;
+      padding: 10px 18px;
+      border-radius: 12px;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
       font-size: 14px;
-      background-color: #5865F2;
+      transition: all 0.3s;
+    }
+
+    .modal-buttons button:first-child {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
       color: white;
-      transition: background-color 0.3s ease;
+    }
+
+    .modal-buttons button:last-child {
+      background: linear-gradient(135deg, #f87171, #ef4444);
+      color: white;
     }
 
     .modal-buttons button:hover {
-      background-color: #4752c4;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    @keyframes popUp {
+      0% {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     @media (max-width: 600px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-
-      .box {
-        font-size: 14px;
-        padding: 30px 15px;
-      }
+      .container { grid-template-columns: 1fr; }
     }
   </style>
 </head>
+
 <body>
 
-  <div class="container">
-    <div class="box" onclick="handleClick('', true)">
-      <div class="badge maintenance">Maintenance</div>
-      <div class="icon discord"><i class="fab fa-discord"></i></div>
-      <div class="label">Auto Post</div>
-    </div>
-    <div class="box" onclick="handleClick('', true)">
-      <div class="badge maintenance">Maintenance</div>
-      <div class="icon star"><i class="fas fa-star"></i></div>
-      <div class="label">Premium User Login</div>
-    </div>
-    <div class="box" onclick="handleClick('', true, 'Trial User Login')">
-      <div class="badge maintenance">Maintenance</div>
-      <div class="icon user"><i class="fas fa-user"></i></div>
-      <div class="label">Trial User Login</div>
-    </div>
-    <div class="box" onclick="handleClick('', true)">
-      <div class="badge maintenance">Maintenance</div>
-      <div class="icon youtube"><i class="fab fa-youtube"></i></div>
-      <div class="label">Tutorial</div>
-    </div>
+<div class="container">
+  <div class="box" onclick="handleClick('', true)">
+    <div class="badge maintenance">Maintenance</div>
+    <div class="icon discord"><i class="fab fa-discord"></i></div>
+    <div class="label">Auto Post</div>
+    <div class="shine"></div>
+    <div class="sparkle" style="top: 10%; left: 20%;"></div>
+    <div class="sparkle" style="top: 30%; left: 80%; animation-delay: 0.5s;"></div>
+    <div class="sparkle" style="top: 70%; left: 40%; animation-delay: 1s;"></div>
   </div>
 
-  <!-- Modal -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <button class="close-button" onclick="closeModal()">&times;</button>
-      <p id="modal-message">❌ Gagal, Website Sedang Maintenance.</p>
+  <div class="box" onclick="handleClick('', true)">
+    <div class="badge maintenance">Maintenance</div>
+    <div class="icon star"><i class="fas fa-star"></i></div>
+    <div class="label">Premium User Login</div>
+    <div class="shine"></div>
+    <div class="sparkle" style="top: 20%; left: 30%;"></div>
+    <div class="sparkle" style="top: 60%; left: 70%; animation-delay: 0.8s;"></div>
+    <div class="sparkle" style="top: 85%; left: 10%; animation-delay: 1.5s;"></div>
+  </div>
+
+  <div class="box" onclick="handleClick('', true, 'Trial User Login')">
+    <div class="badge new">NEW</div>
+    <div class="icon user"><i class="fas fa-user"></i></div>
+    <div class="label">Trial User Login</div>
+    <div class="shine"></div>
+    <div class="sparkle" style="top: 15%; left: 60%;"></div>
+    <div class="sparkle" style="top: 50%; left: 20%; animation-delay: 1s;"></div>
+    <div class="sparkle" style="top: 80%; left: 50%; animation-delay: 1.8s;"></div>
+  </div>
+
+  <div class="box" onclick="handleClick('', true)">
+    <div class="badge maintenance">Maintenance</div>
+    <div class="icon youtube"><i class="fab fa-youtube"></i></div>
+    <div class="label">Tutorial</div>
+    <div class="shine"></div>
+    <div class="sparkle" style="top: 25%; left: 70%;"></div>
+    <div class="sparkle" style="top: 65%; left: 30%; animation-delay: 1s;"></div>
+    <div class="sparkle" style="top: 90%; left: 40%; animation-delay: 1.6s;"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+  <div class="modal-content modern">
+    <button class="close-button" onclick="closeModal()">&times;</button>
+    <div class="modal-body">
+      <h2 id="modal-title">Pemberitahuan</h2>
+      <p id="modal-message">Sedang memuat...</p>
       <div class="modal-buttons" id="modal-buttons">
-        <button onclick="closeModal()">Tutup</button>
+        <!-- Tombol dinamis -->
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    let redirectUrl = "";
-    function handleClick(url, isMaintenance, boxName = '') {
-      const modal = document.getElementById('modal');
-      const msg = document.getElementById('modal-message');
-      const buttonsDiv = document.getElementById('modal-buttons');
+<script>
+function handleClick(url, isMaintenance, boxName = '') {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modal-title');
+  const msg = document.getElementById('modal-message');
+  const buttonsDiv = document.getElementById('modal-buttons');
 
-      buttonsDiv.innerHTML = ""; // bersihkan tombol
+  buttonsDiv.innerHTML = "";
 
-      if (isMaintenance) {
-        msg.innerHTML = "❌ Ggal, Website Sedang Maintenance.";
-        buttonsDiv.innerHTML = `<button onclick="closeModal()">Tutup</button>`;
-      } else {
-        if (boxName !== '') {
-          msg.innerHTML = `✅ Mengarahkan ke ${boxName}...`;
-          setTimeout(() => {
-            window.location.href = url;
-          }, 1500);
-        }
-      }
+  if (isMaintenance) {
+    title.innerHTML = "🚧 Fitur Maintenance";
+    msg.innerHTML = "Maaf, fitur ini sedang dalam perbaikan.";
+    buttonsDiv.innerHTML = `
+      <button onclick="closeModal()">Tutup</button>
+    `;
+  } else {
+    title.innerHTML = "🚀 Arahkan ke Website";
+    msg.innerHTML = `Apakah kamu ingin lanjut ke <b>${boxName}</b>?`;
+    buttonsDiv.innerHTML = `
+      <button onclick="window.location.href='${url}'">Lanjutkan</button>
+      <button onclick="closeModal()">Tutup</button>
+    `;
+  }
 
-      modal.classList.add("show");
-    }
+  modal.classList.add("show");
+}
 
-    function closeModal() {
-      const modal = document.getElementById('modal');
-      modal.classList.remove("show");
-    }
-  </script>
+function closeModal() {
+  const modal = document.getElementById('modal');
+  modal.classList.remove("show");
+}
+</script>
+
 </body>
 </html>
