@@ -258,21 +258,21 @@
 <body>
 
 <div class="container">
-  <div class="box" onclick="handleClick('', true, 'Auto Post')">
-    <div class="badge maintenance">Maintenance</div>
+  <div class="box" onclick="handleClick('https://discord.gg/QVx8r6tv', false, 'Auto Post')">
+    <div class="badge new">NEW</div>
     <div class="icon discord"><i class="fab fa-discord"></i></div>
     <div class="label">Auto Post</div>
     <div class="shine"></div>
   </div>
 
-  <div class="box" onclick="handleClick('', true, 'Premium User Login')">
-    <div class="badge maintenance">Maintenance</div>
+  <div class="box" onclick="handleClick('https://cbcb-47-254-18-95.ngrok-free.app/login?tab=regular', false, 'Premium User Login')">
+    <<div class="badge new">NEW</div>
     <div class="icon star"><i class="fas fa-crown"></i></div>
     <div class="label">Premium User Login</div>
     <div class="shine"></div>
   </div>
 
-  <div class="box" onclick="handleClick('https://linktrial.example.com', true, 'Trial User Login')">
+  <div class="box" onclick="handleClick('https://cbcb-47-254-18-95.ngrok-free.app/login?tab=token', false, 'Trial User Login')">
     <div class="badge new">NEW</div>
     <div class="icon user"><i class="fas fa-user-astronaut"></i></div>
     <div class="label">Trial User Login</div>
@@ -312,7 +312,7 @@ function handleClick(url, isMaintenance, boxName = '') {
     msg.innerHTML = `Maaf, fitur <b>${boxName}</b> sedang dalam perbaikan.`;
     buttonsDiv.innerHTML = `<button onclick="closeModal()">Tutup</button>`;
   } else {
-    title.innerHTML = "🚀 Arahkan ke Website";
+    title.innerHTML = "🚀 Di Arahkan ke Website";
     msg.innerHTML = `Apakah kamu ingin lanjut ke <b>${boxName}</b>?`;
     buttonsDiv.innerHTML = `
       <button onclick="window.location.href='${url}'">Lanjutkan</button>
