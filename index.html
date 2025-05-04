@@ -17,7 +17,7 @@
       background: linear-gradient(135deg, #e0e7ff, #f0f4ff);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden;
@@ -107,22 +107,6 @@
       0% { transform: scale(1); }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0;
-      animation: sparkleAnim 2s infinite ease-in-out;
-    }
-
-    @keyframes sparkleAnim {
-      0% { opacity: 0; transform: scale(0); }
-      50% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(0); }
     }
 
     .shine {
@@ -249,6 +233,25 @@
       }
     }
 
+    .discord-banner {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .discord-banner a {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      font-size: 20px;
+      color: #5865F2;
+    }
+
+    .discord-banner i {
+      font-size: 32px;
+    }
+
     @media (max-width: 600px) {
       .container { grid-template-columns: 1fr; }
     }
@@ -257,8 +260,17 @@
 
 <body>
 
+<!-- Logo Discord di Atas -->
+<div class="discord-banner">
+  <a href="https://discord.gg/AsAxMsRj" target="_blank">
+    <i class="fab fa-discord"></i>
+    <span>Join Discord Auto Post</span>
+  </a>
+</div>
+
+<!-- Container utama -->
 <div class="container">
-  <div class="box" onclick="handleClick('https://discord.gg/AsAxMsRj', false, 'Auto Post')">
+  <div class="box" onclick="handleClick('https://autopost.sumatra.my.id/login?tab=regular', false, 'Auto Post')">
     <div class="badge new">NEW</div>
     <div class="icon discord"><i class="fab fa-discord"></i></div>
     <div class="label">Auto Post</div>
@@ -287,6 +299,15 @@
   </div>
 </div>
 
+<!-- Logo Discord di Bawah -->
+<div class="discord-banner">
+  <a href="https://discord.gg/AsAxMsRj" target="_blank">
+    <i class="fab fa-discord"></i>
+    <span>Join Discord Auto Post</span>
+  </a>
+</div>
+
+<!-- Modal -->
 <div id="modal" class="modal">
   <div class="modal-content modern">
     <button class="close-button" onclick="closeModal()">&times;</button>
